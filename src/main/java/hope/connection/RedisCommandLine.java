@@ -7,7 +7,7 @@ import java.sql.SQLOutput;
 
 public class RedisCommandLine {
 
-    static void connect(String[] args) {
+    public static void connect(String[] args) {
         Options options = new Options();
         Option hostOption = new Option("h", "host", true, "Redis Server Host");
         Option portOption = new Option("p", "port", true, "Redis Server Port");
@@ -32,8 +32,6 @@ public class RedisCommandLine {
 
         Jedis jedis = null;
         jedis = new Jedis(host, port);
-
-
 
         if(password != null) {
             jedis.auth(password);
