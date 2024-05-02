@@ -5,9 +5,10 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import java.sql.SQLOutput;
-
 public class RedisCommandLine {
+
+    static JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+    static JedisPool pool = null;
 
     public static void connect(String[] args) {
         Options options = new Options();
@@ -32,8 +33,7 @@ public class RedisCommandLine {
         int port = Integer.parseInt(cmd.getOptionValue("port"));
         String password = cmd.getOptionValue("password");
 
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        JedisPool pool = new JedisPool(jedisPoolConfig, host, port, 1000);
+        pool = new JedisPool(jedisPoolConfig, host, port, 1000);
         Jedis jedis = null;
 
         if(password != null && !password.isEmpty()) {
