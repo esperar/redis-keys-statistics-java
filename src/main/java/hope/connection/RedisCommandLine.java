@@ -2,6 +2,8 @@ package hope.connection;
 
 import org.apache.commons.cli.*;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.sql.SQLOutput;
 
@@ -30,10 +32,12 @@ public class RedisCommandLine {
         int port = Integer.parseInt(cmd.getOptionValue("port"));
         String password = cmd.getOptionValue("password");
 
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        JedisPool pool = new JedisPool(jedisPoolConfig, host, port, 1000);
         Jedis jedis = null;
-        jedis = new Jedis(host, port);
 
-        if(password != null) {
+        if(password != null && !password.isEmpty()) {
+            jedis = pool.getResource();
             jedis.auth(password);
         }
 
